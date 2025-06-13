@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Password - Generator</h1>
+
+        <div class="password-display">
+            <input type="text" id="passwordOutput" readonly placeholder="Your Generated Password">
+            <button id="copyButton" class="copy-button">Copy</button>
+        </div>
+
+        <div class="controls">
+            <div class="range-container">
+                <input type="range" id="passwordLength" min="6" max="50" value="12">
+                <span id="lengthDisplay">Length: 12</span>
+            </div>
+
+            <div class="options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="includeCharacters" checked>
+                    <span class="checkmark"></span>
+                    Characters
+                </label>
+
+                <label class="checkbox-container">
+                    <input type="checkbox" id="includeNumbers" checked>
+                    <span class="checkmark"></span>
+                    Numbers
+                </label>
+            </div>
+            <button id="generateButton" class="generate-button">Generate Password</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #fff; 
+    color: #ecf0f1; 
+}
+
+.container {
+    background-color: black; 
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box; 
+}
+
+.title {
+    font-size: 2.2em;
+    margin-bottom: 30px;
+    color: #ecf0f1;
+    background-color: #2c3e50; 
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.password-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 15px; 
+}
+
+#passwordOutput {
+    flex-grow: 1; 
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    background-color: #ecf0f1; 
+    color: #2c3e50;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+}
+
+.copy-button {
+    padding: 15px 25px;
+    background-color: #27ae60; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    flex-shrink: 0; 
+}
+
+.copy-button:hover {
+    background-color: #219d53;
+    transform: translateY(-2px);
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+
+.range-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+}
+
+#passwordLength {
+    flex-grow: 1;
+    width: 100%;
+    height: 10px;
+    background: #555;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+    cursor: pointer;
+}
+
+#passwordLength:hover {
+    opacity: 1;
+}
+
+#passwordLength::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #3498db;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+#passwordLength::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #3498db;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+#lengthDisplay {
+    font-size: 1.1em;
+    min-width: 100px; 
+    text-align: left;
+}
+
+.options {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+    user-select: none;
+    text-align: left; 
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #555;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #666;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #3498db; 
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.generate-button {
+    padding: 15px 30px;
+    background-color: #e67e22; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 250px;
+    margin-top: 10px; 
+}
+
+.generate-button:hover {
+    background-color: #d35400;
+    transform: translateY(-2px);
+}
+@media (max-width: 768px) {
+    .container {
+        padding: 25px 30px;
+    }
+    .title {
+        font-size: 1.8em;
+    }
+    .password-display {
+        flex-direction: column;
+        gap: 10px;
+    }
+    #passwordOutput {
+        width: 100%;
+        text-align: left; 
+    }
+    .copy-button {
+        width: 100%;
+        max-width: 150px; 
+    }
+    .range-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    #lengthDisplay {
+        align-self: flex-start; 
+    }
+    .options {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .checkbox-container {
+        width: 100%; 
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+    .title {
+        font-size: 1.5em;
+    }
+    .copy-button, .generate-button {
+        font-size: 1em;
+        padding: 12px 20px;
+    }
+    #passwordOutput {
+        font-size: 1em;
+        padding: 12px 15px;
+    }
+    .checkbox-container {
+        font-size: 1em;
+    }
+    .checkmark {
+        height: 20px;
+        width: 20px;
+    }
+    .checkmark:after {
+        left: 7px;
+        top: 3px;
+        width: 4px;
+        height: 8px;
+    }
+}
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const passwordOutput = document.getElementById('passwordOutput');
+    const copyButton = document.getElementById('copyButton');
+    const passwordLengthInput = document.getElementById('passwordLength');
+    const lengthDisplay = document.getElementById('lengthDisplay');
+    const includeCharactersCheckbox = document.getElementById('includeCharacters');
+    const includeNumbersCheckbox = document.getElementById('includeNumbers');
+    const generateButton = document.getElementById('generateButton');
+
+    const lowerCaseChars = 'abcdefghijklmnopqrstuvwxyz';
+    const upperCaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    const specialChars = '!@#$%^&*()-_+=[]{}|;:,.<>?';
+    lengthDisplay.textContent = `Length: ${passwordLengthInput.value}`;
+    passwordLengthInput.addEventListener('input', () => {
+        lengthDisplay.textContent = `Length: ${passwordLengthInput.value}`;
+    });
+    generateButton.addEventListener('click', generatePassword);
+    generatePassword();
+
+    function generatePassword() {
+        const length = parseInt(passwordLengthInput.value);
+        const useCharacters = includeCharactersCheckbox.checked;
+        const useNumbers = includeNumbersCheckbox.checked;
+
+        let availableChars = lowerCaseChars + upperCaseChars; 
+
+        if (useCharacters) {
+            availableChars += specialChars;
+        }
+        if (useNumbers) {
+            availableChars += numbers;
+        }
+
+        if (availableChars.length === 0) {
+            passwordOutput.value = "Select options!";
+            return;
+        }
+
+        let generatedPassword = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * availableChars.length);
+            generatedPassword += availableChars[randomIndex];
+        }
+
+        passwordOutput.value = generatedPassword;
+    }
+    copyButton.addEventListener('click', () => {
+        if (passwordOutput.value) {
+            navigator.clipboard.writeText(passwordOutput.value)
+                .then(() => {
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy';
+                    }, 1500);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy password. Please copy manually.');
+                });
+        }
+    });
+});
+</script>
